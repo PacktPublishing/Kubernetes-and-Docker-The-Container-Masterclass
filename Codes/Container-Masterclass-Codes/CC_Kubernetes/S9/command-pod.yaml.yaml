@@ -1,0 +1,19 @@
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cmd-pod
+  labels:
+    #sensible label
+    purpose: demonstrate-command
+spec:
+  containers:
+  - name: cmd-container
+    #debian image
+    image: debian
+    # Here, instead of keeping the container up by running a loop of bash command,
+    # We are just asking it to print a couple of environment variables which can be
+    # verified with logs
+    command: ["printenv"]
+    args: ["HOSTNAME", "KUBERNETES_PORT"]
+    restartPolicy: OnFailure

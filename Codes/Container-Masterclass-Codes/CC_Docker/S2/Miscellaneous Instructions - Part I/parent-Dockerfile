@@ -1,0 +1,16 @@
+
+
+------------------------------------ parent-dockerfile ---------------------------------------
+
+FROM ubuntu:16.04
+
+ONBUILD RUN echo "Greetings from your parent image!" > /tmp/hello.txt
+
+CMD ["bash"]
+
+----------------------------------- End of parent-dockrefile ---------------------------------
+
+
+
+
+

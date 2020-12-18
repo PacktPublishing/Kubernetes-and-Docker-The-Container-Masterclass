@@ -1,0 +1,59 @@
+
+---
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: wp-frontend
+  labels:
+    app: wordpress
+spec:
+  selector:
+    matchLabels:
+      app: wordpress
+      tier: frontend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: wordpress
+        tier: frontend
+    spec:
+      containers:
+      - name: wp-container
+        image: wordpress:4.8-apache
+        env:
+        - name: WORDPRESS_DB_HOST
+          value: mysql-db
+        - name: WORDPRESS_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-pswd
+              key: password
+        ports:
+        - containerPort: 80
+          name: wp-container
+        volumeMounts:
+        - name: wp-volume
+          mountPath: /var/www/html
+      volumes:
+      - name: wp-volume
+        emptyDir: {}
+---
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wp-frontend
+  labels:
+    app: wordpress
+spec:
+  ports:
+    - port: 80
+  selector:
+    app: wordpress
+    tier: frontend
+  type: LoadBalancer
+---
+

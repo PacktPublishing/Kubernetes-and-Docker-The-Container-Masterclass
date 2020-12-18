@@ -1,0 +1,12 @@
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: imp-pod
+  labels:
+    app: myapp
+spec:
+  containers:
+  - name: imp-container
+    image: busybox
+    command: ['sh', '-c', 'echo Welcome to Container Masterclass by CeruleanCanvas && sleep 60']
